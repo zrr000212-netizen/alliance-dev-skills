@@ -68,7 +68,7 @@ sudo docker push swr.cn-north-4.myhuaweicloud.com/{组织名称}/{镜像名称}:
 
 | 参数 | 值 |
 |------|-----|
-| API 地址 | https://192.168.1.214:5443 |
+| API 地址 | <https://192.168.1.214:5443> |
 | CA 证书 | /root/lipeixin/ccecert/ca.crt |
 | 客户端证书 | /root/lipeixin/ccecert/client.crt |
 | 客户端密钥 | /root/lipeixin/ccecert/client.key |
@@ -261,7 +261,7 @@ for svc in json.load(sys.stdin)['items']:
 
 完成后输出以下格式的报告：
 
-```
+```text
 === 部署信息 ===
 
 构建:

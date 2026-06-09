@@ -405,11 +405,11 @@ spec:
 | JWT_SECRET | JWT 签名密钥 | (空) | 是 |
 | ADMIN_USERNAME | 管理员用户名 | admin | 否 |
 | ADMIN_PASSWORD | 管理员密码 | (空) | 是 |
-| FRONTEND_URL | 前端地址(CORS) | http://service-dev.topxtopx.com | 否 |
+| FRONTEND_URL | 前端地址(CORS) | <http://service-dev.topxtopx.com> | 否 |
 | GITCODE_TOKEN | GitCode API Token | (空) | 否 |
 | OBS_AK | OBS Access Key | (空) | 否 |
 | OBS_SK | OBS Secret Key | (空) | 否 |
-| OBS_SERVER | OBS 服务地址 | https://obs.cn-north-7.ulanqab.huawei.com | 否 |
+| OBS_SERVER | OBS 服务地址 | <https://obs.cn-north-7.ulanqab.huawei.com> | 否 |
 | OBS_BUCKET | OBS 桶名 | obs-hd-static-cdn-skill-wl203 | 否 |
 
 ## 常见错误速查
