@@ -1,6 +1,6 @@
 # huaweicloud-skills 门禁检查
 # 触发：push to master / PR to master / 手动触发
-# 检查层：skillcheck规范 → markdownlint格式 → PR标题规范 → Skill安全扫描 → Gitleaks凭证扫描
+# 检查层：skillcheck规范 → markdownlint格式 → PR标题规范 → 华为云SKILL.md规范 → Skill安全扫描 → Gitleaks凭证扫描
 name: Skill Check
 
 on:
@@ -114,7 +114,35 @@ jobs:
           requireScope: false
 
   # ═══════════════════════════════════════════════════════
-  #  Job 4: Skill 安全扫描 — cisco-ai-skill-scanner
+  #  Job 4: hwcloud-spec — 华为云 SKILL.md 规范检查
+  # ═══════════════════════════════════════════════════════
+  hwcloud-spec:
+    name: ☁️ 华为云 SKILL.md 规范检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run hwcloud-spec check
+        run: |
+          echo "══════════════════════════════════════════════"
+          echo "  hwcloud-spec: 华为云 SKILL.md 规范检查"
+          echo "══════════════════════════════════════════════"
+          python3 scripts/hwcloud_spec_check.py skills 2>&1 | tee hwcloud-spec.log
+
+      - name: Upload hwcloud-spec log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hwcloud-spec-log
+          path: hwcloud-spec.log
+
+  # ═══════════════════════════════════════════════════════
+  #  Job 5: Skill 安全扫描 — cisco-ai-skill-scanner
   # ═══════════════════════════════════════════════════════
   skill-security:
     name: 🔒 Skill 安全扫描
@@ -145,7 +173,7 @@ jobs:
           path: skill-scanner.log
 
   # ═══════════════════════════════════════════════════════
-  #  Job 5: Gitleaks — 凭证泄露扫描
+  #  Job 6: Gitleaks — 凭证泄露扫描
   # ═══════════════════════════════════════════════════════
   gitleaks:
     name: 🔑 Gitleaks 凭证扫描

@@ -27,6 +27,7 @@
 
 - [ ] 已通过 `skillcheck` 规范检查
 - [ ] 已通过 `markdownlint` 格式检查
+- [ ] 已通过 `hwcloud-spec` 华为云规范检查
 - [ ] 已通过 `skill-scanner` 安全扫描
 - [ ] 已通过 `gitleaks` 凭证扫描
 - [ ] SKILL.md frontmatter 字段完整（name/description/tags/version）
