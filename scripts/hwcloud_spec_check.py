@@ -49,7 +49,8 @@ SECTION_ALIASES = {
     "最佳实践": ["最佳实践", "Best Practices", "Best Practice"],
     "参考文档": ["参考文档", "References", "参考", "Reference", "See Also", "Related",
                "延伸阅读", "Related Skills", "Fix strategies", "Troubleshooting"],
-    "注意事项": ["注意事项", "Notes", "Caveats", "注意", "Pitfalls", "Gotchas", "常见问题"],
+    "注意事项": ["注意事项", "Notes", "Caveats", "注意", "Pitfalls", "Gotchas", "常见问题",
+               "陷阱速查", "常见错误速查", "Troubleshooting"],
 }
 
 # ── 文件大小限制 ──

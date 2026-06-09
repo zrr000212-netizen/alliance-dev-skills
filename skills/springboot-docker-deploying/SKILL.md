@@ -10,13 +10,22 @@ author: Hermes Agent
 license: MIT
 metadata:
   hermes:
-    tags: [SpringBoot, Docker, CCE, SWR, HuaweiCloud, Deploy, CrossArch]
+    tags: [SpringBoot, Docker, CCE, SWR, Deploy]
     related_skills: [springboot-docker-packaging, springboot-vue-nginx-deployment]
 ---
 
 # Spring Boot Docker 一键部署（构建 → SWR → CCE）
 
 将 Spring Boot 后端项目从源码构建为 amd64 Docker 镜像，推送到华为云 SWR，并更新 CCE Deployment 完成滚动更新。
+
+## 前置条件
+
+- 构建机: aarch64 EulerOS 2.0+, Docker 18.09+ (experimental enabled)
+- JDK 17 已安装或可下载
+- Maven 3.6+ 已安装
+- 华为云 SWR 登录凭证已获取
+- CCE 集群 kubeconfig 或证书已配置
+- springboot-docker-packaging 技能已加载（跨架构构建细节参考）
 
 ## 适用场景
 
@@ -47,6 +56,7 @@ docker login -u cn-north-4@HST3UQPSE9SU06K4QQ26 -p 6b215814cbb9a6266c14d030c19c0
 ```
 
 推送格式：
+
 ```bash
 sudo docker push swr.cn-north-4.myhuaweicloud.com/{组织名称}/{镜像名称}:{版本名称}
 # 本项目: swr.cn-north-4.myhuaweicloud.com/swr-hd/hd-skill-backend:{TAG}
@@ -64,6 +74,7 @@ sudo docker push swr.cn-north-4.myhuaweicloud.com/{组织名称}/{镜像名称}:
 | 客户端密钥 | /root/lipeixin/ccecert/client.key |
 
 CCE 证书获取方式（从集群节点下载）：
+
 ```bash
 # 证书文件: ca.crt, client.crt, client.key
 # 存放目录: /root/lipeixin/ccecert/
@@ -297,3 +308,10 @@ rm -rf /root/rootfs /root/centos7-rootfs.tar /root/rootfs.tar \
 | SWR push unauthorized | 登录凭证过期 | 重新执行 docker login 登录 SWR |
 | CCE PATCH连接失败 | API地址错误 | 确认CCE地址为192.168.1.214:5443 |
 | CCE证书验证失败 | 证书文件缺失/过期 | 确认/root/lipeixin/ccecert/下ca.crt/client.crt/client.key存在 |
+
+## 参考文档
+
+- [华为云 SWR 容器镜像服务](https://support.huaweicloud.com/swr/index.html)
+- [华为云 CCE 容器引擎](https://support.huaweicloud.com/cce/index.html)
+- [Docker cross-platform build](https://docs.docker.com/build/building/multi-platform/)
+- [springboot-docker-packaging 技能 (springboot-docker-packaging)] — 跨架构构建详细步骤

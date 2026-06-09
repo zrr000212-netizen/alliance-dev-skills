@@ -6,13 +6,24 @@ author: Hermes Agent
 license: MIT
 metadata:
   hermes:
-    tags: [SpringBoot, Docker, CCE, SWR, HuaweiCloud, CrossArch, Packaging, OBS]
+    tags: [SpringBoot, Docker, CCE, SWR, Packaging]
     related_skills: [springboot-vue-nginx-deployment, flask-sqlite-deployment]
 ---
 
 # Spring Boot 后端 Docker 打包全流程
 
 适用于 HDAgentSkills 项目及类似 Spring Boot 3.x + JDK 17 后端的 Docker 镜像构建、打包、推送与部署。
+
+## 概述
+
+本技能覆盖 Spring Boot 后端 Docker 镜像的四种构建流程：
+
+1. **本地直接 Docker Build** — 构建机与目标架构相同
+2. **跨架构构建** — aarch64 构建机 → amd64 CCE 镜像（rootfs 导入 + manifest 修正）
+3. **tar.gz 出包 + OBS 上传** — 离线部署包打包与对象存储上传
+4. **Docker 镜像本地验证** — 构建后本地启动验证
+
+触发：用户说"打包"、"构建镜像"、"Docker build"、"跨架构构建"等。
 
 ## 项目参数（HDAgentSkills 为例）
 
@@ -75,6 +86,7 @@ docker inspect swr.cn-north-4.myhuaweicloud.com/swr-hd/hd-skill-backend:latest -
 ### 陷阱：Docker Hub 不可达
 
 华为云环境通常无法访问 Docker Hub，`maven:3.9-eclipse-temurin-17` 和 `eclipse-temurin:17-jre-alpine` 基础镜像拉取会失败。解决方案：
+
 - 用 SWR 公共镜像：`swr.cn-north-4.myhuaweicloud.com/library/centos:7`（amd64 可用）
 - 或本地已有镜像：`docker images | grep temurin`
 - 或提前 `docker pull` + `docker tag` 到本地
@@ -418,3 +430,11 @@ spec:
 ```bash
 rm -rf /root/rootfs /root/centos7-rootfs.tar /root/rootfs.tar /root/image.tar /root/image-fixed.tar /root/img-fix /root/jdk17-x64.tar.gz /root/jdk-17.0.2 /tmp/hd-skill-backend-pkg
 ```
+
+## 参考文档
+
+- [华为云 SWR 容器镜像服务](https://support.huaweicloud.com/swr/index.html)
+- [华为云 CCE 容器引擎](https://support.huaweicloud.com/cce/index.html)
+- [华为云 OBS 对象存储](https://support.huaweicloud.com/obs/index.html)
+- [Docker import/export](https://docs.docker.com/engine/reference/commandline/import/)
+- [springboot-docker-deploying 技能 (springboot-docker-deploying)] — 一键部署全流程
