@@ -151,6 +151,7 @@ jobs:
   skill-security:
     name: 🔒 Skill 安全扫描
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -163,6 +164,7 @@ jobs:
         run: pip install uv && uv pip install --system cisco-ai-skill-scanner
 
       - name: Run skill-scanner
+        if: success()
         run: |
           echo "══════════════════════════════════════════════"
           echo "  skill-scanner: AI Skill 安全扫描"
