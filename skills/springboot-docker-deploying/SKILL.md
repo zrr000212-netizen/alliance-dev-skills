@@ -185,6 +185,7 @@ DELETE FROM flyway_schema_history WHERE success = 0;
 ```
 
 或在应用启动前通过 Flyway API：
+
 ```bash
 # 通过 Spring Boot Actuator（如果启用）
 curl -X POST http://localhost:8080/actuator/flyway/repair

@@ -109,6 +109,7 @@ shutil.copy2(dst, '/tmp/centos7-rootfs.tar')
 ```
 
 **⚠️ 验证 rootfs 架构**：提取后必须确认是 amd64：
+
 ```bash
 # 检查动态链接器是否存在（amd64 标志）
 tar -tf /root/centos7-rootfs.tar | grep 'lib64/ld-linux-x86-64'
