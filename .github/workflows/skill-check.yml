@@ -147,11 +147,11 @@ jobs:
 
   # ═══════════════════════════════════════════════════════
   #  Job 5: Skill 安全扫描 — cisco-ai-skill-scanner
+  #  参考: https://cisco-ai-defense.github.io/docs/skill-scanner/github-actions
   # ═══════════════════════════════════════════════════════
   skill-security:
     name: 🔒 Skill 安全扫描
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -160,16 +160,42 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install cisco-ai-skill-scanner
-        run: pip install uv && uv pip install --system cisco-ai-skill-scanner
+      - name: Install cisco-ai-skill-scanner (with retry)
+        run: |
+          for i in 1 2 3; do
+            echo "Install attempt $i/3..."
+            if pip install cisco-ai-skill-scanner; then
+              echo "Installation succeeded"
+              break
+            fi
+            if [ "$i" -eq 3 ]; then
+              echo "All install attempts failed, falling back to source install"
+              pip install git+https://github.com/cisco-ai-defense/skill-scanner.git
+            fi
+            sleep 5
+          done
+          skill-scanner --help
 
-      - name: Run skill-scanner
-        if: success()
+      - name: Scan all skills (static + behavioral + cross-skill overlap)
         run: |
           echo "══════════════════════════════════════════════"
           echo "  skill-scanner: AI Skill 安全扫描"
           echo "══════════════════════════════════════════════"
-          skill-scanner scan . 2>&1 | tee skill-scanner.log
+          skill-scanner scan-all skills \
+            --recursive \
+            --check-overlap \
+            --use-behavioral \
+            --policy balanced \
+            --format sarif \
+            --output results.sarif \
+            --fail-on-severity high \
+            2>&1 | tee skill-scanner.log
+
+      - name: Upload SARIF to GitHub Code Scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif
 
       - name: Upload skill-scanner log
         uses: actions/upload-artifact@v4
