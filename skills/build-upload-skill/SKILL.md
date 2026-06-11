@@ -32,14 +32,17 @@ Upload a local directory (recursive) to a Huawei OBS bucket. Two modes:
 ## Install & Setup (首次使用必须执行)
 
 1. Install the OBS SDK:
-   ```
+
+   ```bash
    pip install esdk-obs-python
    ```
 
 2. Run the interactive setup script to configure all parameters:
-   ```
+
+   ```bash
    python ~/.hermes/skills/devops/obs-upload/scripts/setup.py
    ```
+
    The script will prompt for each parameter one by one:
    - AK / SK: 输入后会掩码显示并要求确认
    - SERVER / BUCKET: 有默认值，直接回车可跳过
@@ -47,16 +50,21 @@ Upload a local directory (recursive) to a Huawei OBS bucket. Two modes:
    - LOCAL_DIR: 填了 PROJECT_PATH 可留空(自动推导为 dist)
    - OBS_PREFIX: 必须输入
 
-   Configuration is saved to `~/.hermes/skills/devops/obs-upload/scripts/config.json`.
+   Configuration is saved to
+   `~/.hermes/skills/devops/obs-upload/scripts/config.json`.
 
-3. If you need to reconfigure, just run setup.py again — it will detect existing config and ask if you want to overwrite.
+3. If you need to reconfigure, just run setup.py again — it will
+   detect existing config and ask if you want to overwrite.
 
 ## Upload Steps
 
-1. Check if config.json exists. If NOT, tell user to run setup.py first and stop.
+1. Check if config.json exists. If NOT, tell user to run setup.py
+   first and stop.
 
-2. Run the upload script (it handles build + upload automatically based on config):
-   ```
+2. Run the upload script (it handles build + upload automatically
+   based on config):
+
+   ```bash
    python ~/.hermes/skills/devops/obs-upload/scripts/obs_upload.py
    ```
 
